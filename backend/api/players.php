@@ -35,6 +35,16 @@ function fetchPlayerProfile(int $id): array {
     ];
 }
 
+function listPlayers(): void {
+    $st = db()->query('SELECT id, username, elo, created_at FROM players ORDER BY elo DESC LIMIT 200');
+    ok(array_map(fn($p) => [
+        'id'         => (int)$p['id'],
+        'username'   => $p['username'],
+        'elo'        => (int)$p['elo'],
+        'created_at' => $p['created_at'],
+    ], $st->fetchAll()));
+}
+
 function getMe(): void {
     $session = auth();
     ok(fetchPlayerProfile($session['sub']));

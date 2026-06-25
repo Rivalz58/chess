@@ -13,7 +13,7 @@ function db(): PDO {
     static $pdo = null;
     if ($pdo === null) {
         $pdo = new PDO(
-            'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+            'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4',
             DB_USER, DB_PASS,
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
              PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
@@ -109,6 +109,9 @@ if ($method === 'POST' && $uri === '/auth/register') {
 
 } elseif ($method === 'POST' && preg_match('#^/games/(\d+)/resign$#', $uri, $m)) {
     require __DIR__ . '/api/games.php'; resign((int)$m[1]);
+
+} elseif ($method === 'GET' && $uri === '/players') {
+    require __DIR__ . '/api/players.php'; listPlayers();
 
 } elseif ($method === 'GET' && $uri === '/players/me') {
     require __DIR__ . '/api/players.php'; getMe();
