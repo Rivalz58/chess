@@ -122,6 +122,21 @@ if ($method === 'POST' && $uri === '/auth/register') {
 } elseif ($method === 'GET' && preg_match('#^/players/(\d+)/history$#', $uri, $m)) {
     require __DIR__ . '/api/players.php'; getHistory((int)$m[1]);
 
+} elseif ($method === 'POST' && $uri === '/challenges') {
+    require __DIR__ . '/api/challenges.php'; createChallenge();
+
+} elseif ($method === 'GET' && $uri === '/challenges/incoming') {
+    require __DIR__ . '/api/challenges.php'; listIncoming();
+
+} elseif ($method === 'GET' && preg_match('#^/challenges/(\d+)$#', $uri, $m)) {
+    require __DIR__ . '/api/challenges.php'; getChallenge((int)$m[1]);
+
+} elseif ($method === 'POST' && preg_match('#^/challenges/(\d+)/accept$#', $uri, $m)) {
+    require __DIR__ . '/api/challenges.php'; acceptChallenge((int)$m[1]);
+
+} elseif ($method === 'POST' && preg_match('#^/challenges/(\d+)/decline$#', $uri, $m)) {
+    require __DIR__ . '/api/challenges.php'; declineChallenge((int)$m[1]);
+
 } else {
     err('Not found', 404);
 }

@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,21 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         void onPlayerClick(PlayerItem player);
     }
 
-    private final List<PlayerItem> players;
-    private final OnPlayerClickListener listener;
+    public interface OnChallengeClickListener {
+        void onChallengeClick(PlayerItem player);
+    }
 
-    public PlayerAdapter(List<PlayerItem> players, OnPlayerClickListener listener) {
+    private final List<PlayerItem> players;
+    private final int ownPlayerId;
+    private final OnPlayerClickListener listener;
+    private final OnChallengeClickListener challengeListener;
+
+    public PlayerAdapter(List<PlayerItem> players, int ownPlayerId,
+                          OnPlayerClickListener listener, OnChallengeClickListener challengeListener) {
         this.players = players;
+        this.ownPlayerId = ownPlayerId;
         this.listener = listener;
+        this.challengeListener = challengeListener;
     }
 
     @NonNull
@@ -40,6 +50,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onPlayerClick(player);
         });
+
+        if (player.id == ownPlayerId) {
+            holder.challengeButton.setVisibility(View.GONE);
+        } else {
+            holder.challengeButton.setVisibility(View.VISIBLE);
+            holder.challengeButton.setOnClickListener(v -> {
+                if (challengeListener != null) challengeListener.onChallengeClick(player);
+            });
+        }
     }
 
     @Override
@@ -49,12 +68,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView rankText, usernameText, eloText;
+        final Button challengeButton;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             rankText = itemView.findViewById(R.id.rankText);
             usernameText = itemView.findViewById(R.id.usernameText);
             eloText = itemView.findViewById(R.id.eloText);
+            challengeButton = itemView.findViewById(R.id.challengeButton);
         }
     }
 }

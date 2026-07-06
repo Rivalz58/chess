@@ -45,6 +45,13 @@
         android:text="Liste des joueurs" />
 
     <Button
+        android:id="@+id/challengeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Défier un joueur" />
+
+    <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HomeActivity extends AppCompatActivity {
 
     private SessionManager session;
+    private ChallengePoller challengePoller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         Button playButton = findViewById(R.id.playButton);
         Button profileButton = findViewById(R.id.profileButton);
         Button playersButton = findViewById(R.id.playersButton);
+        Button challengeButton = findViewById(R.id.challengeButton);
         Button logoutButton = findViewById(R.id.logoutButton);
 
         playButton.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
@@ -42,11 +44,30 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         playersButton.setOnClickListener(v -> startActivity(new Intent(this, PlayersListActivity.class)));
+        challengeButton.setOnClickListener(v -> startActivity(new Intent(this, PlayersListActivity.class)));
 
         logoutButton.setOnClickListener(v -> {
             session.clear();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
+
+        challengePoller = new ChallengePoller(this, session, gameId -> {
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra(GameActivity.EXTRA_GAME_ID, gameId);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (challengePoller != null) challengePoller.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (challengePoller != null) challengePoller.stop();
     }
 }

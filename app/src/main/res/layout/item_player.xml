@@ -32,4 +32,16 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/challengeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="Défier"
+        android:textSize="12sp" />
+
 </LinearLayout>

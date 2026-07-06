@@ -38,3 +38,17 @@ CREATE TABLE game_moves (
     FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
     UNIQUE KEY unique_ply (game_id, move_number)
 );
+
+-- A challenge is a direct invite from one player to another to start a game.
+-- Accepting it creates a `games` row with both players already assigned (random color).
+CREATE TABLE challenges (
+    id            INT PRIMARY KEY AUTO_INCREMENT,
+    challenger_id INT NOT NULL,
+    challenged_id INT NOT NULL,
+    status        ENUM('pending','accepted','declined') NOT NULL DEFAULT 'pending',
+    game_id       INT NULL,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (challenger_id) REFERENCES players(id),
+    FOREIGN KEY (challenged_id) REFERENCES players(id),
+    FOREIGN KEY (game_id) REFERENCES games(id)
+);

@@ -17,7 +17,8 @@ import java.util.concurrent.Executors;
 public class ApiClient {
 
     // 10.0.2.2 is how the Android emulator reaches the host machine's localhost.
-    private static final String BASE_URL = "http://10.0.2.2/backend/api";
+    // Every emulator instance on this same PC can use this same alias independently.
+    private static final String BASE_URL = "http://10.0.2.2/chess/backend/api";
 
     private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool();
     private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());

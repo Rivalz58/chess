@@ -27,6 +27,7 @@
         <activity android:name=".HomeActivity" android:exported="false" />
         <activity android:name=".ProfileActivity" android:exported="false" />
         <activity android:name=".PlayersListActivity" android:exported="false" />
+        <activity android:name=".GameActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
     </application>
 
